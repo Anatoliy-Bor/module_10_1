@@ -1,0 +1,53 @@
+from time import sleep
+from datetime import datetime
+from threading import Thread
+
+
+
+def write_words(word_count, file_name):
+	for i in range(word_count):
+		with open(file_name, 'a', encoding='utf-8') as file:
+			sleep(0.1)
+			file.write(f'Какое-то слово № {i+1} \n ')
+			
+	print(f'Завершилась запись в файл {file_name}')
+
+start_time = datetime.now()
+#write_words(4, 'example1.txt')
+write_words(10, 'example1.txt')
+write_words(30, 'example2.txt')
+write_words(200, 'example3.txt')
+write_words(100, 'example4.txt')
+
+end_time = datetime.now()
+res_time = end_time - start_time 
+print(res_time)			
+
+print('  """А теперь потоки """ ')
+
+start_time2 = datetime.now()
+#write_words(10, 'example5.txt')
+#write_words(30, 'example6.txt')
+#write_words(200, 'example7.txt')
+#write_words(100, 'example8.txt')
+
+			
+
+first_onl = Thread(target = write_words, args = (10, 'example5.txt' ))
+second_onl = Thread(target = write_words, args = (30, 'example6.txt' ))
+third_onl = Thread(target = write_words, args = (200, 'example7.txt' ))
+fours_onl = Thread(target = write_words, args = (100, 'example8.txt' ))
+
+first_onl.start()
+second_onl.start()
+third_onl.start()
+fours_onl.start()
+
+first_onl.join()
+second_onl.join()
+third_onl.join()
+fours_onl.join()
+
+end_time2 = datetime.now()
+res_time2 = end_time2 - start_time2
+print(res_time2)
